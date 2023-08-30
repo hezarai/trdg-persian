@@ -103,3 +103,4 @@ ENV/
 .vscode/*
 .idea/
 results/
+outputs/
