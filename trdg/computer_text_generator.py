@@ -13,6 +13,7 @@ def generate(
     character_spacing,
     fit,
     word_split,
+    text_direction="rtl",
     stroke_width=0, 
     stroke_fill="#282828",
 ):
@@ -26,12 +27,13 @@ def generate(
             character_spacing,
             fit,
             word_split,
+            text_direction,
             stroke_width,
             stroke_fill,
         )
     elif orientation == 1:
         return _generate_vertical_text(
-            text, font, text_color, font_size, space_width, character_spacing, fit,
+            text, font, text_color, font_size, space_width, character_spacing, fit, text_direction,
             stroke_width, stroke_fill, 
         )
     else:
@@ -39,12 +41,18 @@ def generate(
 
 
 def _generate_horizontal_text(
-    text, font, text_color, font_size, space_width, character_spacing, fit, word_split, 
+    text, font, text_color, font_size, space_width, character_spacing, fit, word_split, text_direction,
     stroke_width=0, stroke_fill="#282828"
 ):
     image_font = ImageFont.truetype(font=font, size=font_size)
 
     space_width = int(image_font.getsize(" ")[0] * space_width)
+
+    if text_direction == "rtl":
+        # the parameter text_direction actually does not work for some reason so we have to use this trick
+        # if the text contains space, just reverse the order of the words
+        if " " in text:
+            text = " ".join(text.split(" ")[::-1])
 
     if word_split:
         splitted_text = []
@@ -97,6 +105,8 @@ def _generate_horizontal_text(
             font=image_font,
             stroke_width=stroke_width,
             stroke_fill=stroke_fill,
+            direction=text_direction,
+            align="right",
         )
         txt_mask_draw.text(
             (sum(piece_widths[0:i]) + i * character_spacing * int(not word_split), 0),
@@ -105,6 +115,8 @@ def _generate_horizontal_text(
             font=image_font,
             stroke_width=stroke_width,
             stroke_fill=stroke_fill,
+            direction=text_direction,
+            align="right",
         )
 
     if fit:
@@ -114,7 +126,7 @@ def _generate_horizontal_text(
 
 
 def _generate_vertical_text(
-    text, font, text_color, font_size, space_width, character_spacing, fit,
+    text, font, text_color, font_size, space_width, character_spacing, fit, text_direction,
     stroke_width=0, stroke_fill="#282828"
 ):
     image_font = ImageFont.truetype(font=font, size=font_size)
@@ -159,6 +171,7 @@ def _generate_vertical_text(
             font=image_font,
             stroke_width=stroke_width,
             stroke_fill=stroke_fill,
+            direction=text_direction,
         )
         txt_mask_draw.text(
             (0, sum(char_heights[0:i]) + i * character_spacing),
@@ -167,6 +180,7 @@ def _generate_vertical_text(
             font=image_font,
             stroke_width=stroke_width,
             stroke_fill=stroke_fill,
+            direction=text_direction,
         )
 
     if fit:

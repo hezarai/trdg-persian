@@ -49,6 +49,7 @@ class FakeTextDataGenerator(object):
         fit,
         output_mask,
         word_split,
+        text_direction,
         image_dir,
         stroke_width=0,
         stroke_fill="#282828",
@@ -78,6 +79,7 @@ class FakeTextDataGenerator(object):
                 character_spacing,
                 fit,
                 word_split,
+                text_direction,
                 stroke_width,
                 stroke_fill,
             )
@@ -259,9 +261,6 @@ class FakeTextDataGenerator(object):
         # Prevent save error on words containing '/'
         if '/' in text:
             text = text.replace('/', '|')
-        
-        if ' ' in text:
-            text = " ".join(text.split(" ")[::-1])
 
         if space_width == 0:
             text = text.replace(" ", "")

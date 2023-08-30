@@ -32,6 +32,7 @@ class GeneratorFromStrings:
         fit=False,
         output_mask=False,
         word_split=False,
+        text_direction="rtl",
         image_dir=os.path.join(
             "..", os.path.split(os.path.realpath(__file__))[0], "images"
         ),
@@ -64,6 +65,7 @@ class GeneratorFromStrings:
         self.fit = fit
         self.output_mask = output_mask
         self.word_split = word_split
+        self.text_direction = text_direction
         self.image_dir = image_dir
         self.generated_count = 0
         self.stroke_width = stroke_width
@@ -107,6 +109,7 @@ class GeneratorFromStrings:
                 self.fit,
                 self.output_mask,
                 self.word_split,
+                self.text_direction,
                 self.image_dir,
                 self.stroke_width,
                 self.stroke_fill,

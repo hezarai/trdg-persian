@@ -12,14 +12,16 @@ count = 1000000
 group = '2'
 # The generators use the same arguments as the CLI, only as parameters
 
-generator = GeneratorFromDict(language='fa2',
+generator = GeneratorFromDict(language='fa',
                               count=count,
                               blur=True,
                               random_blur=1,
                               word_split=True,
+                              text_direction="rtl",
                               background_type=2,
                               margins=(3, 3, 3, 3),
-                              fit=True
+                              fit=True,
+
                               )
 
 print('\n')

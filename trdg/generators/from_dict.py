@@ -35,6 +35,7 @@ class GeneratorFromDict:
         fit=False,
         output_mask=False,
         word_split=False,
+        text_direction="rtl",
         image_dir=os.path.join(
             "..", os.path.split(os.path.realpath(__file__))[0], "images"
         ),
@@ -70,6 +71,7 @@ class GeneratorFromDict:
             fit,
             output_mask,
             word_split,
+            text_direction,
             image_dir,
             stroke_width,
             stroke_fill,

@@ -309,6 +309,13 @@ def parse_arguments():
         default=False,
     )
     parser.add_argument(
+        "-tdir",
+        "--text_direction",
+        type=str,
+        help="Split on words instead of on characters (preserves ligatures, no character spacing)",
+        default="rtl",
+    )
+    parser.add_argument(
         "-stw",
         "--stroke_width",
         type=int, 
@@ -451,6 +458,7 @@ def main():
                 [args.fit] * string_count,
                 [args.output_mask] * string_count,
                 [args.word_split] * string_count,
+                [args.text_direction] * string_count,
                 [args.image_dir] * string_count,
                 [args.stroke_width] * string_count,
                 [args.stroke_fill] * string_count,
