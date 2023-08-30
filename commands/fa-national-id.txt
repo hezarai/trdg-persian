@@ -1,0 +1,5 @@
+trdg --output_dir ./outputs -l fa_chars -fd trdg/fonts/fa_chars -t 48 -c 2000000 -w 1 -bl 1 -rbl -m 3,3,3,3 -tc "#284854,#542828" -k 5 -rk -na 1 -ws -b 3 -id trdg/generators/ID_card
+trdg --output_dir ./outputs -l fa_chars -fd trdg/fonts/fa_chars -t 48 -c 2000000 -w 1 -bl 1 -rbl -m 3,3,3,3 -k 5 -rk -na 1 -ws
+trdg --output_dir ./outputs -l IR_national_id -fd trdg/fonts/IR_national_id -t 48 -c 1000000 -w 1 -bl 1 -rbl -m 3,3,3,3 -tc "#ed8c8c,#8ceced" -k 5 -rk -na 3 -ws -b 3 -id trdg/generators/dark_texture
+trdg --output_dir ./outputs -l IR_national_id -fd trdg/fonts/IR_national_id -t 48 -c 1000000 -w 1 -bl 1 -rbl -m 3,3,3,3 -tc "#284854,#542828" -k 5 -rk -na 3 -ws -b 3 -id trdg/generators/ID_card
+trdg --output_dir ./outputs -l IR_national_id -fd trdg/fonts/IR_national_id -t 48 -c 1000000 -w 1 -bl 1 -rbl -m 3,3,3,3 -k 5 -rk -na 3 -ws

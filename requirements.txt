@@ -1,0 +1,6 @@
+pillow==8.3.2
+requests
+opencv-python
+tqdm
+beautifulsoup4
+diffimg==0.2.3

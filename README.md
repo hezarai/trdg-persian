@@ -1,0 +1,1 @@
+This fork focuses on Persian language. [INCOMPLETE]
