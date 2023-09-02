@@ -312,8 +312,8 @@ def parse_arguments():
         "-tdir",
         "--text_direction",
         type=str,
-        help="Split on words instead of on characters (preserves ligatures, no character spacing)",
-        default="rtl",
+        help="Sets the text direction (rtl, ltr)",
+        default=None,
     )
     parser.add_argument(
         "-stw",
