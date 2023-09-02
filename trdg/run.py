@@ -364,22 +364,25 @@ def main():
             with open(args.dict, "r", encoding="utf8", errors="ignore") as d:
                 lang_dict = [l for l in d.read().splitlines() if len(l) > 0]
         else:
-            sys.exit("Cannot open dict")
+            sys.exit("Cannot open dict. Exiting the program...")
     else:
         lang_dict = load_dict(args.language)
 
     # Create font (path) list
     if args.font_dir:
-        fonts = [
+        if os.path.isdir(args.font_dir):
+            fonts = [
             os.path.join(args.font_dir, p)
             for p in os.listdir(args.font_dir)
             if os.path.splitext(p)[1] == ".ttf"
         ]
+        else:
+            sys.exit("Cannot open font directory. Exiting the program...")
     elif args.font:
         if os.path.isfile(args.font):
             fonts = [args.font]
         else:
-            sys.exit("Cannot open font")
+            sys.exit("Cannot open font. Exiting the program...")
     else:
         fonts = load_fonts(args.language)
 
