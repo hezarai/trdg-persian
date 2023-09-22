@@ -18,6 +18,8 @@ class GeneratorFromStrings:
         random_skew=False,
         blur=0,
         random_blur=False,
+        reduce_quality_factor=1.0,
+        reduce_quality_prob=0.2,
         background_type=0,
         distortion_type=0,
         distortion_orientation=0,
@@ -51,6 +53,8 @@ class GeneratorFromStrings:
         self.random_skew = random_skew
         self.blur = blur
         self.random_blur = random_blur
+        self.reduce_quality_factor = reduce_quality_factor
+        self.reduce_quality_prob = reduce_quality_prob
         self.background_type = background_type
         self.distortion_type = distortion_type
         self.distortion_orientation = distortion_orientation
@@ -94,6 +98,8 @@ class GeneratorFromStrings:
                 self.random_skew,
                 self.blur,
                 self.random_blur,
+                self.reduce_quality_factor,
+                self.reduce_quality_prob,
                 self.background_type,
                 self.distortion_type,
                 self.distortion_orientation,

@@ -152,6 +152,20 @@ def parse_arguments():
         default=False,
     )
     parser.add_argument(
+        "-rqf",
+        "--reduce_quality_factor",
+        help="Reduce quality by a factor. Decrease image size by that factor and increase it back to reduce quality. Do not use with `--blur`",
+        type=float,
+        default=1.0
+    )
+    parser.add_argument(
+        "-rqp",
+        "--reduce_quality_prob",
+        help="Reduce quality probability",
+        type=float,
+        default=0.8
+    )
+    parser.add_argument(
         "-bl",
         "--blur",
         type=int,
@@ -430,7 +444,6 @@ def main():
         strings = [x.lower() for x in strings]
 
     string_count = len(strings)
-
     p = Pool(args.thread_count)
     for _ in tqdm(
         p.imap_unordered(
@@ -446,6 +459,8 @@ def main():
                 [args.random_skew] * string_count,
                 [args.blur] * string_count,
                 [args.random_blur] * string_count,
+                [args.reduce_quality_factor] * string_count,
+                [args.reduce_quality_prob] * string_count,
                 [args.background] * string_count,
                 [args.distortion] * string_count,
                 [args.distortion_orientation] * string_count,

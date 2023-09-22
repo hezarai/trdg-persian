@@ -16,7 +16,7 @@ class FakeTextDataGenerator(object):
     @classmethod
     def generate_from_tuple(cls, t):
         """
-            Same as generate, but takes all parameters as one tuple
+        Same as generate, but takes all parameters as one tuple
         """
 
         cls.generate(*t)
@@ -34,6 +34,8 @@ class FakeTextDataGenerator(object):
         random_skew,
         blur,
         random_blur,
+        reduce_quality_factor,
+        reduce_quality_prob,
         background_type,
         distortion_type,
         distortion_orientation,
@@ -103,28 +105,22 @@ class FakeTextDataGenerator(object):
             distorted_img, distorted_mask = distortion_generator.sin(
                 rotated_img,
                 rotated_mask,
-                vertical=(distortion_orientation ==
-                          0 or distortion_orientation == 2),
-                horizontal=(distortion_orientation ==
-                            1 or distortion_orientation == 2),
+                vertical=(distortion_orientation == 0 or distortion_orientation == 2),
+                horizontal=(distortion_orientation == 1 or distortion_orientation == 2),
             )
         elif distortion_type == 2:
             distorted_img, distorted_mask = distortion_generator.cos(
                 rotated_img,
                 rotated_mask,
-                vertical=(distortion_orientation ==
-                          0 or distortion_orientation == 2),
-                horizontal=(distortion_orientation ==
-                            1 or distortion_orientation == 2),
+                vertical=(distortion_orientation == 0 or distortion_orientation == 2),
+                horizontal=(distortion_orientation == 1 or distortion_orientation == 2),
             )
         else:
             distorted_img, distorted_mask = distortion_generator.random(
                 rotated_img,
                 rotated_mask,
-                vertical=(distortion_orientation ==
-                          0 or distortion_orientation == 2),
-                horizontal=(distortion_orientation ==
-                            1 or distortion_orientation == 2),
+                vertical=(distortion_orientation == 0 or distortion_orientation == 2),
+                horizontal=(distortion_orientation == 1 or distortion_orientation == 2),
             )
 
         ##################################
@@ -141,7 +137,8 @@ class FakeTextDataGenerator(object):
                 (new_width, size - vertical_margin), Image.ANTIALIAS
             )
             resized_mask = distorted_mask.resize(
-                (new_width, size - vertical_margin), Image.NEAREST)
+                (new_width, size - vertical_margin), Image.NEAREST
+            )
             background_width = width if width > 0 else new_width + horizontal_margin
             background_height = size
         # Vertical text
@@ -188,8 +185,7 @@ class FakeTextDataGenerator(object):
         # Comparing average pixel value of text and background image #
         ##############################################################
         try:
-            resized_img_st = ImageStat.Stat(
-                resized_img, resized_mask.split()[2])
+            resized_img_st = ImageStat.Stat(resized_img, resized_mask.split()[2])
             background_img_st = ImageStat.Stat(background_img)
 
             resized_img_px_mean = sum(resized_img_st.mean[:2]) / 3
@@ -212,8 +208,7 @@ class FakeTextDataGenerator(object):
         new_text_width, _ = resized_img.size
 
         if alignment == 0 or width == -1:
-            background_img.paste(
-                resized_img, (margin_left, margin_top), resized_img)
+            background_img.paste(resized_img, (margin_left, margin_top), resized_img)
             background_mask.paste(resized_mask, (margin_left, margin_top))
         elif alignment == 1:
             background_img.paste(
@@ -235,6 +230,25 @@ class FakeTextDataGenerator(object):
                 resized_mask,
                 (background_width - new_text_width - margin_right, margin_top),
             )
+
+        ##################
+        # Reduce Quality #
+        ##################
+        if rnd.random() < reduce_quality_prob:
+            if reduce_quality_factor > 1:
+                raise ValueError(f"reduce_quality_factor (rqf) cannot be higher than 1.0, got {reduce_quality_factor}")
+            if reduce_quality_factor < 1:
+                w, h = background_img.size
+                background_img = background_img.resize(
+                    (int(w * reduce_quality_factor), int(h * reduce_quality_factor))
+                )
+                background_img = background_img.resize((w, h))
+
+                w, h = background_mask.size
+                background_mask = background_mask.resize(
+                    (int(w * reduce_quality_factor), int(h * reduce_quality_factor))
+                )
+                background_mask = background_mask.resize((w, h))
 
         #######################
         # Apply gaussian blur #
@@ -259,8 +273,8 @@ class FakeTextDataGenerator(object):
         # We remove spaces if space_width == 0
 
         # Prevent save error on words containing '/'
-        if '/' in text:
-            text = text.replace('/', '|')
+        if "/" in text:
+            text = text.replace("/", "|")
 
         if space_width == 0:
             text = text.replace(" ", "")
