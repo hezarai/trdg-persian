@@ -63,6 +63,14 @@ def parse_arguments():
         required=True,
     )
     parser.add_argument(
+        "-sti",
+        "--start_index",
+        type=int,
+        nargs="?",
+        help="Start indexing from this number.",
+        default=0,
+    )
+    parser.add_argument(
         "-rs",
         "--random_sequences",
         action="store_true",
@@ -449,7 +457,7 @@ def main():
         p.imap_unordered(
             FakeTextDataGenerator.generate_from_tuple,
             zip(
-                [i for i in range(0, string_count)],
+                [i for i in range(args.start_index, args.start_index + string_count)],
                 strings,
                 [fonts[rnd.randrange(0, len(fonts))] for _ in range(0, string_count)],
                 [args.output_dir] * string_count,
