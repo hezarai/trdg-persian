@@ -3,6 +3,7 @@ import random as rnd
 from typing import List
 
 from PIL import Image, ImageFilter, ImageStat
+import persian
 
 from trdg import computer_text_generator, background_generator, distortion_generator
 
@@ -275,7 +276,10 @@ class FakeTextDataGenerator(object):
         # Prevent save error on words containing '/'
         if "/" in text:
             text = text.replace("/", "|")
-
+        
+        # reverse text label if is only numbers
+        if persian.convert_fa_numbers(text).isnumeric():
+            text = text[::-1]
         if space_width == 0:
             text = text.replace(" ", "")
         if name_format == 0:
